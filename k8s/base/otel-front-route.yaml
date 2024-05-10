@@ -1,0 +1,15 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: otel-front
+spec:
+  port:
+    targetPort: 8080
+  to:
+    kind: Service
+    name: otel-front
+    weight: 100
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  wildcardPolicy: None

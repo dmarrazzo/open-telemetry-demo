@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otel-front
+  annotations:
+    app.openshift.io/connects-to: '[{"apiVersion":"apps/v1","kind":"Deployment","name":"otel-weather"},{"apiVersion":"apps/v1","kind":"Deployment","name":"otel-greetings"},{"apiVersion":"apps/v1","kind":"Deployment","name":"otel-pg"}]'
+  labels:
+    app.kubernetes.io/managed-by: quarkus
+    app.kubernetes.io/name: otel-front
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT
+    app.openshift.io/runtime: quarkus
+    app.kubernetes.io/part-of: otel-front
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: otel-front
+      app.kubernetes.io/version: 1.0.0-SNAPSHOT
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/managed-by: quarkus
+        app.openshift.io/runtime: quarkus
+        app.kubernetes.io/version: 1.0.0-SNAPSHOT
+        app.kubernetes.io/name: otel-front
+    spec:
+      containers:
+        - env:
+            - name: JAVA_APP_JAR
+              value: /deployments/quarkus-run.jar
+          envFrom:
+            - configMapRef:
+                name: otel-common-env
+            - configMapRef:
+                name: otel-pg-env
+          image: otel-front:1.0
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /q/health/live
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10
+          name: otel-front
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /q/health/ready
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10
+          startupProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /q/health/started
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10

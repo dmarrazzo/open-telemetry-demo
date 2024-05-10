@@ -1,0 +1,63 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: otel-pg-config
+data:
+  POSTGRESQL_DATABASE: cXVhcmt1cw==
+  POSTGRESQL_PASSWORD: cXVhcmt1cw==
+  POSTGRESQL_USERNAME: cXVhcmt1cw==
+type: Opaque
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: otel-pg
+    app.kubernetes.io/part-of: otel-front
+    app.openshift.io/runtime: postgresql
+  name: otel-pg
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: otel-pg
+  template:
+    metadata:
+      labels:
+        name: otel-pg
+    spec:
+      containers:
+        - envFrom:
+            - secretRef:
+                name: otel-pg-config
+          image: bitnami/postgresql:14
+          name: otel-pg
+          ports:
+            - containerPort: 5432
+          resources:
+            limits:
+              memory: 128Mi
+            requests:
+              memory: 32Mi
+          volumeMounts:
+            - mountPath: /bitnami/postgresql
+              name: otel-pg-data
+      volumes:
+        - emptyDir: {}
+          name: otel-pg-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: otel-pg
+  name: otel-pg
+spec:
+  ports:
+    - port: 5432
+      protocol: TCP
+      targetPort: 5432
+  selector:
+    name: otel-pg
+  type: ClusterIP

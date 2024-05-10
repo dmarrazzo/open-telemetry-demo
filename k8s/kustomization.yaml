@@ -1,0 +1,35 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+
+- ./base/greetings-deployment.yaml
+# - ./base/greetings-svc.yaml
+- ./base/weather-deployment.yaml
+# - ./base/weather-svc.yaml
+- ./base/otel-front-deployment.yaml 
+# - ./base/otel-front-svc.yaml
+# - ./base/otel-front-route.yaml
+# - ./base/otel-pg.yaml
+
+commonLabels:
+  app: otel-demo
+
+configMapGenerator:
+- name: otel-common-env
+  literals: 
+  - QUARKUS_OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://jaeger-all-in-one-inmemory-collector.openshift-distributed-tracing.svc.cluster.local:4317
+  - QUARKUS_REST_CLIENT__COM_REDHAT_SSA_CLIENT_GREETINGSCLIENT__URL=http://otel-greetings:8080
+  - QUARKUS_REST_CLIENT__COM_REDHAT_SSA_CLIENT_WEATHERCLIENT__URL=http://otel-weather:8080
+
+  options:
+    disableNameSuffixHash: true
+- name: otel-pg-env
+  literals:
+  - QUARKUS_DATASOURCE_JDBC_URL=jdbc:postgresql://otel-pg:5432/quarkus
+  - QUARKUS_DATASOURCE_DB-KIND=postgresql
+  - QUARKUS_DATASOURCE_USERNAME=quarkus
+  - QUARKUS_DATASOURCE_PASSWORD=quarkus
+  - QUARKUS_HIBERNATE_ORM_DATABASE_GENERATION=drop-and-create
+  options:
+    disableNameSuffixHash: true
