@@ -60,7 +60,8 @@ Create the project: `oc new-project otel`
 3. Check that the status is running `oc get jaeger jaeger-all-in-one-inmemory -o jsonpath='{.status.phase}'`
 
 
-> **NOTE:** OpenShift is replacing Jeager with a more modern technology called Tempo. However, since Tempo does not yet provide an easy deployment for the development environment, we opted for a Jeager deployment that was sufficient to prove the key campabilities.
+> [!NOTE] 
+> OpenShift is replacing Jeager with a more modern technology called Tempo. However, since Tempo does not yet provide an easy deployment for the development environment, we opted for a Jeager deployment that was sufficient to prove the key campabilities.
 
 Further information can by found here: [Distributed tracing platform (Jaeger)](https://access.redhat.com/documentation/en-us/openshift_container_platform/4.15/html/distributed_tracing/distributed-tracing-platform-jaeger#doc-wrapper)
 
