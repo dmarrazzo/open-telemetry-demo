@@ -41,11 +41,28 @@ Open Jeager UI: [http://localhost:16686/]()
 
 ## OpenShift Deployment
 
-Prerequisite: Jeager must be up and running. Check [Distributed tracing platform (Jaeger)](https://access.redhat.com/documentation/en-us/openshift_container_platform/4.15/html/distributed_tracing/distributed-tracing-platform-jaeger#doc-wrapper)
+### Project
 
 Login from command line: `oc login ...`
 
 Create the project: `oc new-project otel`
+
+### Distributed tracing platform
+
+1. In OperatorHub locate and **install**: `Red Hat OpenShift distributed tracing platform`
+
+2. **Install** `Jeager all in one` service:
+
+   ```
+   oc apply -f k8s/jeager-all-in-one.yaml
+   ```
+
+3. Check that the status is running `oc get jaeger jaeger-all-in-one-inmemory -o jsonpath='{.status.phase}'`
+
+
+> **NOTE:** OpenShift is replacing Jeager with a more modern technology called Tempo. However, since Tempo does not yet provide an easy deployment for the development environment, we opted for a Jeager deployment that was sufficient to prove the key campabilities.
+
+Further information can by found here: [Distributed tracing platform (Jaeger)](https://access.redhat.com/documentation/en-us/openshift_container_platform/4.15/html/distributed_tracing/distributed-tracing-platform-jaeger#doc-wrapper)
 
 ### Build images
 
