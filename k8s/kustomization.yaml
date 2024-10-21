@@ -4,13 +4,13 @@ kind: Kustomization
 resources:
 
 - ./base/greetings-deployment.yaml
-# - ./base/greetings-svc.yaml
+- ./base/greetings-svc.yaml
 - ./base/weather-deployment.yaml
-# - ./base/weather-svc.yaml
+- ./base/weather-svc.yaml
 - ./base/otel-front-deployment.yaml 
-# - ./base/otel-front-svc.yaml
-# - ./base/otel-front-route.yaml
-# - ./base/otel-pg.yaml
+- ./base/otel-front-svc.yaml
+- ./base/otel-front-route.yaml
+- ./base/otel-pg.yaml
 
 commonLabels:
   app: otel-demo
@@ -18,7 +18,7 @@ commonLabels:
 configMapGenerator:
 - name: otel-common-env
   literals: 
-  - QUARKUS_OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://jaeger-all-in-one-inmemory-collector.openshift-distributed-tracing.svc.cluster.local:4317
+  - QUARKUS_OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://jaeger-all-in-one-inmemory-collector:4317
   - QUARKUS_REST_CLIENT__COM_REDHAT_SSA_CLIENT_GREETINGSCLIENT__URL=http://otel-greetings:8080
   - QUARKUS_REST_CLIENT__COM_REDHAT_SSA_CLIENT_WEATHERCLIENT__URL=http://otel-weather:8080
 
