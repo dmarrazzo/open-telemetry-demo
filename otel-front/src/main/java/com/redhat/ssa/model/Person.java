@@ -8,13 +8,11 @@ public class Person extends PanacheEntity {
 
     public String name;
 
-    // return name as uppercase in the model
     public String getName() {
-        return name.toUpperCase();
+        return name;
     }
 
-    // store all names in lowercase in the DB
     public void setName(String name) {
-        this.name = name.toLowerCase();
+        this.name = name;
     }
 }

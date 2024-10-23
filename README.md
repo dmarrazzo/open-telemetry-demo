@@ -15,7 +15,8 @@ podman run -d --rm --name jeager-aio \
     jaegertracing/all-in-one:latest
 ```
 
-> **NOTE:** If you have Docker in your machine, you can replace `podman` with `docker` in the previous command.
+> [!NOTE]
+> If you have Docker in your machine, you can replace `podman` with `docker` in the previous command.
 
 Run the 3 microservices in dev mode:
 

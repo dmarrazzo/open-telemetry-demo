@@ -45,7 +45,7 @@ public class FrontResource {
 
             PanacheQuery<Person> query = Person.find("name", name);
             
-            if (query.count() == 0) {
+            if (query.count()==0) {
                 Person person = new Person();
                 person.name = name;
                 person.persist();
