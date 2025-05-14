@@ -27,7 +27,7 @@ public class WeatherResource {
     @GET
     @CircuitBreaker(requestVolumeThreshold = 4, failureRatio = 0.5, delay = 5000)
     public String weather() {
-        LOG.info("weather");
+        LOG.info("weather invoked");
         Random random = new Random();
         int randomIndex = random.nextInt(weather.size());
         maybeFail();
@@ -37,8 +37,10 @@ public class WeatherResource {
 
     private void maybeFail() {
         // introduce some artificial failures
+        LOG.info("maybeFail");
         final Long invocationNumber = counter.getAndIncrement();
         if (invocationNumber % 4 > 1) { // alternate 2 successful and 2 failing invocations
+            LOG.error("simulated failure");
             throw new RuntimeException("Service failed.");
         }
     }

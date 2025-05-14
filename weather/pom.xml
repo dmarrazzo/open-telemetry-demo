@@ -43,6 +43,11 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-opentelemetry</artifactId>
     </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-observability-devservices-lgtm</artifactId>
+      <scope>provided</scope>
+    </dependency>
     <!-- health check -->
     <dependency>
       <groupId>io.quarkus</groupId>

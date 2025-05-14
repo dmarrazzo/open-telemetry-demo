@@ -22,7 +22,7 @@ public class GreetingsResource {
     @Path("/greetings")
     @GET
     public String greetings() {
-        LOG.debug("greetings");
+        LOG.info("greetings invoked");
         Random random = new Random();
         int randomIndex = random.nextInt(greetings.size());
         return greetings.get(randomIndex);

@@ -1,29 +1,17 @@
 # Open Telemetry Demo
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework and is based on the online tutorial: https://quarkus.io/version/3.8/guides/opentelemetry.
+This project uses Quarkus, the Supersonic Subatomic Java Framework and is based on the online tutorial: https://quarkus.io/version/3.20/guides/opentelemetry.
 
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
 
 ## Running the application in dev mode
 
-Run Jeager in your local machine:
-
-```sh
-podman run -d --rm --name jeager-aio \
-    -p 16686:16686 -p 14268:14268 -p 4317:4317 -p 4318:4318 -p 14250:14250 \
-    -e COLLECTOR_OTLP_ENABLED=true \
-    jaegertracing/all-in-one:latest
-```
-
-> [!NOTE]
-> If you have Docker in your machine, you can replace `podman` with `docker` in the previous command.
-
 Run the 3 microservices in dev mode:
 
 ```sh
-mvn quarkus:dev -f weather
+mvn quarkus:dev -f otel-front
 mvn quarkus:dev -f greetings -Ddebug=5006
-mvn quarkus:dev -f otel-front -Ddebug=5007
+mvn quarkus:dev -f weather -Ddebug=5007
 ```
 
 Call the front end service:
@@ -38,7 +26,9 @@ The following command provide information on the response time from client point
 curl -w "@curl-format.txt" -o /dev/null -s "http://localhost:8080/hello?name=John"
 ```
 
-Open Jeager UI: [http://localhost:16686/]()
+Open the [Dev UI](http://localhost:8080/q/dev-ui/extensions) and look for the **Obsevability** tile:
+
+- Click on **Grafana UI** link.
 
 ## OpenShift Deployment
 
@@ -48,23 +38,10 @@ Login from command line: `oc login ...`
 
 Create the project: `oc new-project otel`
 
-### Distributed tracing platform
+### Install and configure LGTM stack
 
-1. In OperatorHub locate and **install**: `Red Hat OpenShift distributed tracing platform`
-
-2. **Install** `Jeager all in one` service:
-
-   ```
-   oc apply -f k8s/jeager-all-in-one.yaml
-   ```
-
-3. Check that the status is running `oc get jaeger jaeger-all-in-one-inmemory -o jsonpath='{.status.phase}'`
-
-
-> [!NOTE] 
-> OpenShift is replacing Jeager with a more modern technology called Tempo. However, since Tempo does not yet provide an easy deployment for the development environment, we opted for a Jeager deployment that was sufficient to prove the key campabilities.
-
-Further information can by found here: [Distributed tracing platform (Jaeger)](https://access.redhat.com/documentation/en-us/openshift_container_platform/4.15/html/distributed_tracing/distributed-tracing-platform-jaeger#doc-wrapper)
+> [!WARNING]
+> WORK IN PROGRESS
 
 ### Build images
 
