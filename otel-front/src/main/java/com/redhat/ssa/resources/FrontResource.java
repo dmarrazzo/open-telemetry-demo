@@ -1,8 +1,5 @@
 package com.redhat.ssa.resources;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
@@ -18,7 +15,6 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
-import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
 
 @Path("/hello")

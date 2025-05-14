@@ -22,8 +22,8 @@ Run the 3 microservices in dev mode:
 
 ```sh
 mvn quarkus:dev -f weather
-mvn quarkus:dev -f greetings
-mvn quarkus:dev -f otel-front
+mvn quarkus:dev -f greetings -Ddebug=5006
+mvn quarkus:dev -f otel-front -Ddebug=5007
 ```
 
 Call the front end service:
