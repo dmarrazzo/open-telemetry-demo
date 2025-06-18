@@ -18,7 +18,7 @@ commonLabels:
 configMapGenerator:
 - name: otel-common-env
   literals: 
-  - QUARKUS_OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://jaeger-all-in-one-inmemory-collector:4317
+  - QUARKUS_OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector.observability.svc:4317
   - QUARKUS_REST_CLIENT__COM_REDHAT_SSA_CLIENT_GREETINGSCLIENT__URL=http://otel-greetings:8080
   - QUARKUS_REST_CLIENT__COM_REDHAT_SSA_CLIENT_WEATHERCLIENT__URL=http://otel-weather:8080
 
