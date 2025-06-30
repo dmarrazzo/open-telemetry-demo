@@ -12,8 +12,10 @@ resources:
 - ./base/otel-front-route.yaml
 - ./base/otel-pg.yaml
 
-commonLabels:
-  app: otel-demo
+labels:
+  - pairs:
+      app: otel-demo
+    includeTemplates: false
 
 configMapGenerator:
 - name: otel-common-env
